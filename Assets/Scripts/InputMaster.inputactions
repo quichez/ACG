@@ -1,0 +1,71 @@
+{
+    "name": "InputMaster",
+    "maps": [
+        {
+            "name": "SettlementSelector",
+            "id": "db1e16c4-20bb-4937-89db-051e8de554d5",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "82ba8d05-ea70-4c01-884a-6637231d0a1e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Position",
+                    "type": "PassThrough",
+                    "id": "083efab1-37b3-4ada-8e79-3da3cba042de",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0f2bcf5b-da84-40ee-bab3-96a6e256fd48",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KB_M",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00f3e2e5-8213-416b-ac37-d7c4e2d579c2",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KB_M",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KB_M",
+            "bindingGroup": "KB_M",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

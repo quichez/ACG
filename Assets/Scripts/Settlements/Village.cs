@@ -47,7 +47,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
     protected override void Start()
     {
         base.Start();
-
+        Name = Random.value.ToString();
         InputResources.Add(new Money(10));        
         (InputResources.Find(res => res.GetType() == typeof(Money)) as IRenewableResource).ChangeRenewalAmountByAmount(1);
 

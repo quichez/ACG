@@ -9,15 +9,12 @@ public class LinkSettlementActionPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("enabled");
         if(SettlementInspector.Instance.CurrentSettlement is ILinkableSettlement linkable)
         {
-            Debug.Log("linkable");
             List<ILinkableSettlement> list = linkable.FindLinkableSettlements();
 
             foreach (ILinkableSettlement link in list)
             {
-                Debug.Log((link as Settlement).Name);
                 if (linkable.LinkedSettlements.Contains(link)) { Debug.Log("got it"); continue; }
 
                 CellActionButton clone = Instantiate(_actionButton, transform);
@@ -35,7 +32,7 @@ public class LinkSettlementActionPanel : MonoBehaviour
     {
         linkable.LinkSettlementTo(linkTo);
         Destroy(button.gameObject);
-        TestSettlementSelector.Instance.EnableSettlementSelectorPanels(true);
+        SettlementInspector.Instance.EnableSettlementInspectorPanels();
     }
 
 

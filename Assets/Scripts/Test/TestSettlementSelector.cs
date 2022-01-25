@@ -30,15 +30,7 @@ public class TestSettlementSelector : MonoBehaviour
     InputMaster inputs;
     GameObject prev = null;
 
-    Coroutine camMovement;
-
-    public void EnableSettlementSelectorPanels(bool active = true)
-    {
-        ExplorerPanel.gameObject.SetActive(active);
-        EditorPanel.gameObject.SetActive(active);
-        NamePanel.gameObject.SetActive(active);
-        LinkPanel.gameObject.SetActive(active);
-    }
+    Coroutine camMovement;   
 
     bool IsSelectorOverUI;
 
@@ -108,31 +100,7 @@ public class TestSettlementSelector : MonoBehaviour
                 prev = null;
             }
         }
-    }
-
-    private void HighlightCellsWithinRange(Settlement settlement)
-    {
-        if (settlement is ILinkableSettlement linkable) 
-        {
-            Collider[] cellsInRange = Physics.OverlapBox(settlement.transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, CellMask);
-            foreach (var cell in cellsInRange)
-            {
-                if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.Highlight();
-            }
-        }
-    }
-
-    private void ClearHighlightedCellsWithinRange(Settlement settlement)
-    {
-        if (settlement is ILinkableSettlement linkable)
-        {
-            Collider[] cellsInRange = Physics.OverlapBox(settlement.transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, CellMask);
-            foreach (var cell in cellsInRange)
-            {
-                if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.UnHighlight();
-            }
-        }
-    }   
+    }    
 }
 public interface ISelectable
 {

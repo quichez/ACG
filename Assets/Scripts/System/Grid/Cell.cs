@@ -74,8 +74,6 @@ public interface ICellResources
 {
     List<Resource> CellResources { get; }
 
-    string stupidName { get => "shit"; }
-
     void InitializeResources()
     {
         Debug.Log("Resource intialization not yet created for this object");

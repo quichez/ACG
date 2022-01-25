@@ -18,11 +18,6 @@ public class SettlementActionsPanel : MonoBehaviour
 
     public void FillPanelWithButtons(Settlement settlement)
     {
-
-
-
-
-
         CellActionButton clone = Instantiate(_actionButton, transform);
         clone.SetCellAction(settlement.DestroySettlement, "Destroy");
 
@@ -36,7 +31,7 @@ public class SettlementActionsPanel : MonoBehaviour
         {
             SettlementInspector.Instance.EnableActionExtraPanel(false);
             CellActionButton villageEditorButton = Instantiate(_actionButton, transform);
-            villageEditorButton.SetCellAction(() => TestSettlementSelector.Instance.EditorPanel.gameObject.SetActive(!TestSettlementSelector.Instance.EditorPanel.gameObject.activeSelf));
+            villageEditorButton.SetCellAction(() => TestSettlementSelector.Instance.EditorPanel.gameObject.SetActive(!TestSettlementSelector.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
         }
     }
 

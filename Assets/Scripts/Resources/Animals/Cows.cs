@@ -11,15 +11,9 @@ public class Cows : Resource, IExpenseResource
 
     public Type ResourceRequired => typeof(Money);
 
-    public Cows()
-    {
-        Amount = 1;
-    }
+    public Cows() : base() { }
 
-    public Cows(int amount = 1)
-    {
-        Amount = amount;
-    }
+    public Cows(int amount = 1) : base(amount) { }
 
     public void SetCostToAmount(int amt)
     {

@@ -1,22 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// The class name is a misnomer at the moment.
+/// This should be called something like SelectorManager or something.
+/// This class manages the UIs that appear when an object in game is clicked.
+/// </summary>
 public class TestSettlementSelector : MonoBehaviour
 {
-    public VillageExplorerPanel ExplorerPanel;
-    public VillageEditorPanel EditorPanel;
-    public TestSettlementName NamePanel;
+    public static TestSettlementSelector Instance { get; private set; }
+    
+    [SerializeField] VillageExplorerPanel _explorerPanel;
+    [SerializeField] VillageEditorPanel _editorPanel;
+    [SerializeField] TestSettlementName _namePanel;
+    [SerializeField] SettlementLinkPanel _linkPanel;
+
+    public VillageExplorerPanel ExplorerPanel => _explorerPanel;
+    public VillageEditorPanel EditorPanel => _editorPanel;
+    public TestSettlementName NamePanel => _namePanel;
+    public SettlementLinkPanel LinkPanel => _linkPanel;
+
 
     public LayerMask CellMask;
+    public LayerMask SettlementMask;
 
     InputMaster inputs;
     GameObject prev = null;
+
+    Coroutine camMovement;
+    public void EnableSettlementSelectorPanels(bool active = true)
+    {
+        ExplorerPanel.gameObject.SetActive(active);
+        EditorPanel.gameObject.SetActive(active);
+        NamePanel.gameObject.SetActive(active);
+        LinkPanel.gameObject.SetActive(active);
+    }
+
     bool IsSelectorOverUI;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
+
         inputs = new InputMaster();        
     }
 
@@ -39,59 +68,42 @@ public class TestSettlementSelector : MonoBehaviour
 
     private void Select_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
+        if (IsSelectorOverUI) return;
+        
+
         Ray ray = Camera.main.ScreenPointToRay(inputs.SettlementSelector.Position.ReadValue<Vector2>());
         
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.gameObject.TryGetComponent(out Settlement settlement))
+            GameObject hitObj = hit.collider.gameObject;
+            if (camMovement != null) StopCoroutine(camMovement);
+            camMovement = StartCoroutine(CameraManager.Instance.MoveCamera(hit.transform));
+
+            if (hitObj.TryGetComponent(out ISelectable selectable)) 
             {
-                Renderer hitRenderer = hit.collider.gameObject.GetComponent<Renderer>();
-
-                if (hit.collider.gameObject == prev)
+                if (hitObj == prev)
                 {
-                    NamePanel.SetText("");
-                    EditorPanel.Clear();
-                    ExplorerPanel.Clear();
-
-                    hitRenderer.material.color = Color.green;
-                    if (settlement is ILinkableSettlement) ClearHighlightedCellsWithinRange(settlement);
-
+                    selectable.OnDeselect();
                     prev = null;
+                }
+                else if (prev)
+                {
+                    if (prev.TryGetComponent(out ISelectable prevSelect))
+                    {
+                        prevSelect.OnDeselect();
+                    }
+                    selectable.OnSelect();
+                    prev = hitObj;
                 }
                 else
                 {
-                    if (prev)
-                    {
-                        prev.GetComponent<Renderer>().material.color = Color.green;
-                        if (prev.TryGetComponent(out Settlement settlement1)) ClearHighlightedCellsWithinRange(settlement1);
-                    }
-
-
-
-                    hitRenderer.material.color = Color.red;
-                    NamePanel.SetText(settlement.Name);
-                    ExplorerPanel.SetPanelInfo(settlement);
-                    EditorPanel.SetPanelInformation(settlement);
-
-                    if (settlement is ILinkableSettlement) HighlightCellsWithinRange(settlement);                                                     
-                    prev = hit.collider.gameObject;
-
+                    selectable.OnSelect();
+                    prev = hitObj;
                 }
-                
-                
             }
-            else
+            else 
             {
-                if (IsSelectorOverUI) return;
-
-                if (prev)
-                {
-                    prev.GetComponent<Renderer>().material.color = Color.green;
-                    if (prev.TryGetComponent(out Settlement settlement1)) ClearHighlightedCellsWithinRange(settlement1);
-                }
-                NamePanel.SetText("");
-                ExplorerPanel.Clear();
-                EditorPanel.Clear();
+                Debug.Log("How did I get here?");
                 prev = null;
             }
         }
@@ -104,7 +116,6 @@ public class TestSettlementSelector : MonoBehaviour
             Collider[] cellsInRange = Physics.OverlapBox(settlement.transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, CellMask);
             foreach (var cell in cellsInRange)
             {
-                Debug.Log("fuck");
                 if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.Highlight();
             }
         }
@@ -120,5 +131,10 @@ public class TestSettlementSelector : MonoBehaviour
                 if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.UnHighlight();
             }
         }
-    }
+    }   
+}
+public interface ISelectable
+{
+    void OnSelect();
+    void OnDeselect();
 }

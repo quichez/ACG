@@ -8,5 +8,5 @@ public class TestSettlementName : MonoBehaviour
 {
     public TextMeshProUGUI Text;
 
-    public void SetText(string name) => Text.text = name;
+    public void SetText(string name = "") => Text.text = name;
 }

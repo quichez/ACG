@@ -14,16 +14,30 @@ namespace ACG
             public abstract string Name { get; }
             public abstract string Description { get; }
             public int Amount { get; protected set; }
+            public int EffectiveAmount { get; private set; }
+
             public virtual void ChangeResourceAmount(int amt)
             {
                 Amount += amt;
             }
 
-            protected Resource() { Amount = 1; }
+            protected Resource() { Amount = 1; EffectiveAmount = Amount; }
             protected Resource(int amt = 1)
             {
                 Amount = amt;
+                EffectiveAmount = Amount;
             }
+
+            //public abstract int GetEffectiveAmount();
+
+            public void SetEffectiveAmount(int amt) => EffectiveAmount = amt;
+
+            public override string ToString()
+            {
+                if (Amount == EffectiveAmount) return Name + "     " + Amount.ToString();
+                else return Name + "     " + Amount.ToString() + " (" + EffectiveAmount.ToString() + ")";
+            }
+
         }
 
         public interface IRenewableResource
@@ -91,6 +105,54 @@ namespace ACG
                 InitializeFactory();
                 return _resourceByName.Keys;
             }
+        }
+    }
+
+    namespace Inspectors
+    {
+        public abstract class Inspector : MonoBehaviour
+        {
+            public abstract void Fill(IInspectable inspectable);
+            public abstract void Clear();
+        }
+
+        public interface IInspectable
+        {
+
+        }
+    }
+
+    namespace CellGeneration
+    {
+        public static class CellGenerator
+        {
+            public static int[,] GenerateLand(Vector2Int dim, ICollection cells)
+            {
+                float random = UnityEngine.Random.Range(0.0f, 99999f);
+                int[,] islandMap = new int[dim.x, dim.y] ;
+                for (int i = 0; i < dim.y; i++)
+                {
+                    for (int j = 0; j < dim.x; j++)
+                    {
+                        islandMap[j, i] = Mathf.RoundToInt(Mathf.Clamp(Mathf.PerlinNoise((float)j / dim.x * 3.0f + random, (float)i / dim.y * 3.0f + random), 0.0f, 1.0f));
+                    }                    
+                }
+                return islandMap;
+            }
+
+            public static void GenerateMountains(this GridManager gm, Cell[] cells, MountainCell mountain)
+            {
+                for (int i = 0; i < cells.Length; i++)
+                {
+                    float first = UnityEngine.Random.value;
+                    if (first < 0.025f && cells[i].TryGetComponent(out FieldCell _))
+                    {
+                        UnityEngine.Object.Destroy(cells[i]);
+                        cells[i] = UnityEngine.Object.Instantiate(mountain,cells[i].transform.position, cells[i].transform.rotation,gm.transform);
+                    }
+                }
+            }
+
         }
     }
 }

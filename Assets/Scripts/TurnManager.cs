@@ -23,34 +23,26 @@ public class TurnManager : MonoBehaviour
     {
         if (TurnTimer >= 1.0f) TurnCycle();
         TurnTimer += Time.deltaTime;
+
     }
 
     private void TurnCycle()
     {
         foreach (Settlement settlement in Settlements)
         {
-            IInputResources inputs = settlement as IInputResources;
-            IOutputResources outputs = settlement as IOutputResources;
-            
-            if (inputs != null)
+            if (settlement is IInputResources inputs)
             {
                 foreach (IRenewableResource renewable in inputs.InputResources)
                 {
                     renewable.RenewResource();
-                }                                
+                }
             }
 
-            if (outputs != null)
+            if (settlement is IOutputResources outputs)
             {
-                foreach (Resource temp in outputs.OutputResource)
-                {
-                    if (temp is IExpenseResource expense)
-                    {
-                        Resource res = inputs.InputResources.Find(res => res.GetType() == expense.ResourceRequired);
-                        res.ChangeResourceAmount(-expense.Cost * (expense as Resource).Amount);
-
-                    }
-                }
+                outputs.CalculateAndSpendOnExpenseResources();
+                outputs.SetAllEffectiveResourceAmounts();
+                
             }
         }
         TurnTimer = 0.0f;

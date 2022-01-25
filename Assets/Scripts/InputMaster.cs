@@ -70,6 +70,34 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MapNavigation"",
+            ""id"": ""1dff3044-7958-4802-a9e4-1b54202f6199"",
+            ""actions"": [
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""64a0f42d-c0ef-472b-b5cf-fd84cb370c6a"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""43a536b1-b364-449f-b1fc-be1c106968b5"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KB_M"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -95,6 +123,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         m_SettlementSelector = asset.FindActionMap("SettlementSelector", throwIfNotFound: true);
         m_SettlementSelector_Select = m_SettlementSelector.FindAction("Select", throwIfNotFound: true);
         m_SettlementSelector_Position = m_SettlementSelector.FindAction("Position", throwIfNotFound: true);
+        // MapNavigation
+        m_MapNavigation = asset.FindActionMap("MapNavigation", throwIfNotFound: true);
+        m_MapNavigation_Zoom = m_MapNavigation.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -191,6 +222,39 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         }
     }
     public SettlementSelectorActions @SettlementSelector => new SettlementSelectorActions(this);
+
+    // MapNavigation
+    private readonly InputActionMap m_MapNavigation;
+    private IMapNavigationActions m_MapNavigationActionsCallbackInterface;
+    private readonly InputAction m_MapNavigation_Zoom;
+    public struct MapNavigationActions
+    {
+        private @InputMaster m_Wrapper;
+        public MapNavigationActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Zoom => m_Wrapper.m_MapNavigation_Zoom;
+        public InputActionMap Get() { return m_Wrapper.m_MapNavigation; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MapNavigationActions set) { return set.Get(); }
+        public void SetCallbacks(IMapNavigationActions instance)
+        {
+            if (m_Wrapper.m_MapNavigationActionsCallbackInterface != null)
+            {
+                @Zoom.started -= m_Wrapper.m_MapNavigationActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_MapNavigationActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_MapNavigationActionsCallbackInterface.OnZoom;
+            }
+            m_Wrapper.m_MapNavigationActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
+            }
+        }
+    }
+    public MapNavigationActions @MapNavigation => new MapNavigationActions(this);
     private int m_KB_MSchemeIndex = -1;
     public InputControlScheme KB_MScheme
     {
@@ -204,5 +268,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     {
         void OnSelect(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
+    }
+    public interface IMapNavigationActions
+    {
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

@@ -1,31 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ACG.Inspectors;
+using ACG.Resources;
 
-public class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange
+public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, ISelectable, IInspectable
 {
-    Color _Unselected;
-    public Color _Selected;
+    protected Color _unselected;
+    [SerializeField] protected SpriteRenderer _sprite;
+    [SerializeField] SpriteRenderer _selectMask;
 
-    public SpriteRenderer Sprite;
+    public bool IsPopulated { get; private set; }
 
-    public Color Unselected => _Unselected;
+    public Color Unselected => _unselected;
 
-    public Color Selected => _Selected;
+    public abstract Color Highlighted { get; }
 
-    public void Highlight()
+    public bool IsSettled { get; private set; }
+
+    public virtual void Highlight()
     {
-        Debug.Log("highlight called");
-        Sprite.color = Selected;
+        _sprite.color = Highlighted;
     }
 
-    public void UnHighlight()
+    public virtual void UnHighlight()
     {
-        Sprite.color = Unselected;
+        _sprite.color = Unselected;
     }
 
-    private void Start()
+    public void OnDeselect()
     {
-        _Unselected = Sprite.color;
+        CellInspector.Instance.Clear();
+        _selectMask.gameObject.SetActive(true);
+    }
+
+    public void OnSelect()
+    {        
+        _selectMask.gameObject.SetActive(false);
+        CellInspector.Instance.Fill(this);
+    }
+
+    protected void Start()
+    {
+        _unselected = _sprite.color;
+    }
+
+    public void CreateSettlement()
+    {
+        if (IsPopulated) return;
+        Settlement clone = Instantiate(SettlementManager.Instance.Village, transform.position,Quaternion.identity);
+        clone.SetCellLocation(this);
+        IsPopulated = true;
+
+        CellInspector.Instance.Clear();
+    }
+
+    public void ClearSettlement()
+    {
+        IsPopulated = false;
+    }
+
+    public abstract string GetCellType();
+}
+
+public interface ISettleable
+{
+    bool IsSettled { get; }
+    void CreateSettlement();
+    void ClearSettlement();
+}
+
+public interface ICellResources
+{
+    List<Resource> CellResources { get; }
+
+    string stupidName { get => "shit"; }
+
+    void InitializeResources()
+    {
+        Debug.Log("Resource intialization not yet created for this object");
     }
 }

@@ -13,24 +13,81 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public List<Resource> OutputResource { get; private set; } = new();
 
-    public LinkedList<ILinkableSettlement> LinkedSettlements => throw new System.NotImplementedException();
+    public LinkedList<ILinkableSettlement> LinkedSettlements => new();
 
     public void ChangePopulationByAmount(int amt)
     {
         Population += amt;
     }
 
+    public void FindLinkableSettlements()
+    {
+        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
+        foreach (var cell in linkablesInRange)
+        {
+            if (cell.TryGetComponent(out ILinkableSettlement link))
+            {
+                if (!link.LinkedSettlements.Contains(this) && cell.gameObject != gameObject)
+                {
+                    Debug.Log(cell.gameObject.name);
+                }
+            }
+        }
+    }
+
     public void LinkSettlementTo(ILinkableSettlement other)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     protected override void Start()
     {
-        InputResources.Add(new Money(100));
-        OutputResource.Add(new Cows(1));
-        OutputResource.Add(new Chickens(2));
-        (InputResources.Find(res => res.GetType() == typeof(Money)) as IRenewableResource).ChangeRenewalAmountByAmount(2);
         base.Start();
+
+        InputResources.Add(new Money(10));        
+        (InputResources.Find(res => res.GetType() == typeof(Money)) as IRenewableResource).ChangeRenewalAmountByAmount(1);
+
+        FindLinkableSettlements();
     }
+
+    public override void SetCellLocation(Cell cell)
+    {
+        base.SetCellLocation(cell);
+        if (cell is ICellResources resources)OutputResource.AddRange(resources.CellResources);
+        foreach (IExpenseResource expense in OutputResource)
+        {
+            expense.SetCostToAmount(0);
+        }
+    }
+
+    public void SetEffectiveResourceAmount(Resource res, bool status)
+    {
+        if (!status) res.SetEffectiveAmount(res.Amount);
+        else res.SetEffectiveAmount(res.Amount / 2);
+    }
+
+    public void SetAllEffectiveResourceAmounts()
+    {
+        foreach (Resource outRes in OutputResource) // Loop through again to set all 
+        {
+            if (outRes is IExpenseResource expense)
+            {
+                Resource res = InputResources.Find(res => res.GetType() == expense.ResourceRequired);
+                SetEffectiveResourceAmount(outRes, res.Amount <= 0);
+            }
+        }
+    }
+
+    public void CalculateAndSpendOnExpenseResources()
+    {
+        foreach (Resource temp in OutputResource) // Loop through each resource to calculate resource expenses
+        {
+            if (temp is IExpenseResource expense)
+            {
+                Resource res = InputResources.Find(res => res.GetType() == expense.ResourceRequired);
+                res.ChangeResourceAmount(-expense.Cost * (expense as Resource).Amount);
+            }
+        }
+    }
+
 }

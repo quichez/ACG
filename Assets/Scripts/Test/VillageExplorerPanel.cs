@@ -10,11 +10,6 @@ public class VillageExplorerPanel : MonoBehaviour
     Settlement settlement;
     public TextMeshProUGUI Text;
 
-    private void Start()
-    {
-        Clear();
-    }
-
     private void Update()
     {
         SetPanelInfo(settlement);
@@ -39,7 +34,7 @@ public class VillageExplorerPanel : MonoBehaviour
             Text.text += "Output:\n";
             foreach (Resource item in outputs.OutputResource)
             {
-                Text.text += item.Name + "   " + item.Amount + "\n";
+                Text.text += item.ToString() + "\n";
             }
         }
     }

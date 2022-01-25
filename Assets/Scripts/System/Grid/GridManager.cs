@@ -9,7 +9,8 @@ public class GridManager : MonoBehaviour
 {
     public Vector2Int dim = new Vector2Int(1, 1);
     public List<Cell> cell;
-    public MountainCell _mountainCell;
+    [SerializeField] MountainCell _mountainCell;
+    [SerializeField] ForestCell _forestCell;
 
     Cell[,] cellArray;
 
@@ -35,7 +36,8 @@ public class GridManager : MonoBehaviour
         // Generate Mountains - See Summary
         yield return StartCoroutine(GenerateMountains());
 
-
+        // Generate Forests
+        yield return StartCoroutine(CO_GenerateForests());
 
         // After all cells generated, generate resources
         yield return StartCoroutine(GenerateResources());
@@ -74,7 +76,6 @@ public class GridManager : MonoBehaviour
                 if (item.TryGetComponent(out MountainCell _)) continue;
                 if (Random.value < 0.15f && mCell.gameObject != item.gameObject)
                 {
-                    Debug.Log("i did it!");
                     Instantiate(_mountainCell, item.transform.position, item.transform.rotation, transform);
                     Destroy(item.gameObject);
                     yield return new WaitForEndOfFrame();
@@ -83,6 +84,21 @@ public class GridManager : MonoBehaviour
             }
         }
         yield return new WaitForEndOfFrame(); // allow for map to update
+    }
+
+    private IEnumerator CO_GenerateForests()
+    {
+        // First Pass
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            float first = Random.value;
+            if(first < 0.1f && transform.GetChild(i).TryGetComponent(out FieldCell fc))
+            {
+                ReplaceCellWithNewCell(fc, _forestCell);                
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator GenerateResources()
@@ -100,6 +116,13 @@ public class GridManager : MonoBehaviour
         return Vector3.one/2.0f;
     }
 
+    private void ReplaceCellWithNewCell(Cell oldCell, Cell newCell)
+    {
+        Vector3 pos = oldCell.transform.position;
+        Quaternion rot = oldCell.transform.rotation;
+        Destroy(oldCell.gameObject);
+        Instantiate(newCell, pos, rot, transform);
+    }
 
     private void Update()
     {

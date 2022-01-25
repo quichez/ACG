@@ -45,10 +45,10 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
         _unselected = _sprite.color;
     }
 
-    public void CreateSettlement()
+    public void CreateSettlement(Settlement settlement)
     {
         if (IsPopulated) return;
-        Settlement clone = Instantiate(SettlementManager.Instance.Village, transform.position,Quaternion.identity);
+        Settlement clone = Instantiate(settlement, transform.position,Quaternion.identity);
         clone.SetCellLocation(this);
         IsPopulated = true;
 
@@ -66,7 +66,7 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
 public interface ISettleable
 {
     bool IsSettled { get; }
-    void CreateSettlement();
+    void CreateSettlement(Settlement settlement);
     void ClearSettlement();
 }
 

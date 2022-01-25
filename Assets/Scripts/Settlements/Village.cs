@@ -13,31 +13,35 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public List<Resource> OutputResource { get; private set; } = new();
 
-    public LinkedList<ILinkableSettlement> LinkedSettlements => new();
+    public LinkedList<ILinkableSettlement> LinkedSettlements { get; private set; } = new();
 
     public void ChangePopulationByAmount(int amt)
     {
         Population += amt;
     }
 
-    public void FindLinkableSettlements()
+    public List<ILinkableSettlement> FindLinkableSettlements()
     {
+        List<ILinkableSettlement> linkableSettlements = new();
+
         Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
         foreach (var cell in linkablesInRange)
         {
             if (cell.TryGetComponent(out ILinkableSettlement link))
             {
-                if (!link.LinkedSettlements.Contains(this) && cell.gameObject != gameObject)
+                if (!LinkedSettlements.Contains(link) && cell.gameObject != gameObject)
                 {
-                    Debug.Log(cell.gameObject.name);
+                    linkableSettlements.Add(link);
                 }
             }
         }
+        return linkableSettlements;
     }
 
     public void LinkSettlementTo(ILinkableSettlement other)
     {
-        
+        LinkedSettlements.AddLast(other);
+        Debug.Log("hi");
     }
 
     protected override void Start()
@@ -47,7 +51,6 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         InputResources.Add(new Money(10));        
         (InputResources.Find(res => res.GetType() == typeof(Money)) as IRenewableResource).ChangeRenewalAmountByAmount(1);
 
-        FindLinkableSettlements();
     }
 
     public override void SetCellLocation(Cell cell)

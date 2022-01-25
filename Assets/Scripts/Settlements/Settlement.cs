@@ -95,7 +95,7 @@ public interface ILinkableSettlement
     int MaximumLinkableDistance { get; }
     public LinkedList<ILinkableSettlement> LinkedSettlements { get; }
 
-    void FindLinkableSettlements();
+    List<ILinkableSettlement> FindLinkableSettlements();
     void LinkSettlementTo(ILinkableSettlement other);
 }
 

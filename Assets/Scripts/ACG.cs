@@ -55,6 +55,7 @@ namespace ACG
             Type ResourceRequired { get; }
             //void PayForResource();
             void SetCostToAmount(int amt);
+
             void ChangeCostByAmount(int amt);     
             
 

@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _village: {fileID: 8612461508578901900, guid: 93ff86f9e54ae5c4192bf0bd7c59d030, type: 3}
+  _lumberMill: {fileID: 1392460425273966749, guid: 24dc4c2aebccfd645a6f73e1067db295, type: 3}
 --- !u!114 &109727219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,6 +629,7 @@ MonoBehaviour:
   - {fileID: 8540094890008306112, guid: 9575c3561b231ed40b17b462aab8901d, type: 3}
   - {fileID: -9114992526876444952, guid: 843fd5bb8f2db3e4ea0861aed76920b4, type: 3}
   _mountainCell: {fileID: -2458057243857520144, guid: 346c57607990deb42a77bb2619d23258, type: 3}
+  _forestCell: {fileID: -3516873999173703868, guid: 2b65f4fc4afe5444499601136eef1824, type: 3}
 --- !u!1 &596198656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,17 +1123,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 25
+    m_Bottom: 25
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 195, y: 75}
-  m_Spacing: {x: 0, y: 0}
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 10, y: 0}
   m_Constraint: 1
-  m_ConstraintCount: 2
+  m_ConstraintCount: 5
 --- !u!114 &718057270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,6 +1928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4257f0193fc8642ac0974305e4ac4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actionButton: {fileID: 6255976917516060708, guid: b003a37c7524f3b4499fb5419006099c, type: 3}
 --- !u!1 &1296327849
 GameObject:
   m_ObjectHideFlags: 0

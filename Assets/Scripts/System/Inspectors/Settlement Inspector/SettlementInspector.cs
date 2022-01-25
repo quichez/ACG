@@ -6,6 +6,8 @@ using ACG.Inspectors;
 public class SettlementInspector : Inspector
 {
     public static SettlementInspector Instance;
+    public Settlement CurrentSettlement { get; private set; }
+
     [SerializeField] SettlementActionsPanel settlementActionsPanel;
     [SerializeField] SettlementActionsExtraPanel settlementActionsExtraPanel;
 
@@ -15,18 +17,21 @@ public class SettlementInspector : Inspector
     {
         settlementActionsPanel.ClearPanelButtons();
         settlementActionsPanel.gameObject.SetActive(false);
+        settlementActionsExtraPanel.gameObject.SetActive(false);
     }
 
     public override void Fill(IInspectable inspectable)
     {
         if(inspectable is Settlement settlement)
         {
+            CurrentSettlement = settlement;
             settlementActionsPanel.gameObject.SetActive(true);
-            settlementActionsPanel.FIllPanelWithButtons(settlement);
+            settlementActionsPanel.FillPanelWithButtons(settlement);
         }
     }
 
     public void ToggleActionExtraPanel() => settlementActionsExtraPanel.gameObject.SetActive(!settlementActionsExtraPanel.gameObject.activeSelf);
 
     public void EnableActionExtraPanel(bool enable) => settlementActionsExtraPanel.gameObject.SetActive(enable);
+
 }

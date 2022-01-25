@@ -6,7 +6,7 @@ public class SettlementActionsPanel : MonoBehaviour
 {
     [SerializeField] CellActionButton _actionButton;
 
-    public void FIllPanelWithButtons(Settlement settlement)
+    public void FillPanelWithButtons(Settlement settlement)
     {
 
 
@@ -22,7 +22,12 @@ public class SettlementActionsPanel : MonoBehaviour
             CellActionButton linkButton = Instantiate(_actionButton, transform);
             linkButton.SetCellAction(SettlementInspector.Instance.ToggleActionExtraPanel, "Link Settlement");
         }
-        
+        if(settlement is Village)
+        {
+            SettlementInspector.Instance.EnableActionExtraPanel(false);
+            CellActionButton villageEditorButton = Instantiate(_actionButton, transform);
+            villageEditorButton.SetCellAction(() => TestSettlementSelector.Instance.EditorPanel.gameObject.SetActive(!TestSettlementSelector.Instance.EditorPanel.gameObject.activeSelf));
+        }
     }
 
     public void ClearPanelButtons()

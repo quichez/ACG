@@ -54,9 +54,10 @@ public class CameraManager : MonoBehaviour
     }
     public IEnumerator MoveCamera(Transform targt)
     {
-        _target = targt;
-        Vector3 tgt = new Vector3(_target.transform.position.x, cameraHolder.transform.position.y, _target.position.z - 5.0f);
-        while(!Mathf.Approximately(cameraHolder.transform.position.x, _target.transform.position.x))
+        _target = targt;        
+        Vector3 tgt = new Vector3(targt.transform.position.x, cameraHolder.transform.position.y, targt.position.z - 5.0f);
+        
+        while(targt && !Mathf.Approximately(cameraHolder.transform.position.x, targt.transform.position.x))
         {
             yield return new WaitForEndOfFrame();
 

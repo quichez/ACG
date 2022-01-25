@@ -6,6 +6,16 @@ public class SettlementActionsPanel : MonoBehaviour
 {
     [SerializeField] CellActionButton _actionButton;
 
+    private void OnEnable()
+    {
+        FillPanelWithButtons(SettlementInspector.Instance.CurrentSettlement);
+    }
+
+    private void OnDisable()
+    {
+        ClearPanelButtons();
+    }
+
     public void FillPanelWithButtons(Settlement settlement)
     {
 

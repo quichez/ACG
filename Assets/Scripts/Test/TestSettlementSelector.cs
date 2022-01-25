@@ -31,6 +31,7 @@ public class TestSettlementSelector : MonoBehaviour
     GameObject prev = null;
 
     Coroutine camMovement;
+
     public void EnableSettlementSelectorPanels(bool active = true)
     {
         ExplorerPanel.gameObject.SetActive(active);

@@ -113,8 +113,8 @@ namespace ACG
     {
         public abstract class Inspector : MonoBehaviour
         {
-            public abstract void Fill(IInspectable inspectable);
-            public abstract void Clear();
+            public abstract void FillPanels(IInspectable inspectable);
+            public abstract void ClearPanels();
         }
 
         public interface IInspectable

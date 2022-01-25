@@ -30,14 +30,14 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
 
     public void OnDeselect()
     {
-        CellInspector.Instance.Clear();
+        CellInspector.Instance.ClearPanels();
         _selectMask.gameObject.SetActive(true);
     }
 
     public void OnSelect()
     {        
         _selectMask.gameObject.SetActive(false);
-        CellInspector.Instance.Fill(this);
+        CellInspector.Instance.FillPanels(this);
     }
 
     protected void Start()
@@ -52,7 +52,7 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
         clone.SetCellLocation(this);
         IsPopulated = true;
 
-        CellInspector.Instance.Clear();
+        CellInspector.Instance.ClearPanels();
     }
 
     public void ClearSettlement()

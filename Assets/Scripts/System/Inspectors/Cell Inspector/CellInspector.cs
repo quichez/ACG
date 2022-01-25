@@ -19,7 +19,7 @@ public class CellInspector : Inspector
         //DontDestroyOnLoad(this);
     }
 
-    public override void Fill(IInspectable ins)
+    public override void FillPanels(IInspectable ins)
     {
         if(ins is Cell cell)
         {
@@ -35,7 +35,7 @@ public class CellInspector : Inspector
         }
     }
 
-    public override void Clear()
+    public override void ClearPanels()
     {
         _cellTitlePanel.SetCellTitleText("");
         _cellTypePanel?.SetCellTypeText("");

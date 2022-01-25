@@ -28,27 +28,23 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
 
     public void OnSelect()
     {
-        TestSettlementSelector.Instance.EnableSettlementSelectorPanels();
         GetComponent<Renderer>().material.color = Color.red;
-        TestSettlementSelector.Instance.NamePanel.SetText(Name);
-        TestSettlementSelector.Instance.EditorPanel.SetPanelInformation(this);
-        TestSettlementSelector.Instance.ExplorerPanel.SetPanelInfo(this);
-        if(this is ILinkableSettlement) TestSettlementSelector.Instance.LinkPanel.InitializePanel(this);
         HighlightCellsWithinRange();
 
-        SettlementInspector.Instance.Fill(this);
+        SettlementInspector.Instance.EnableSettlementInspectorPanels();
+        SettlementInspector.Instance.FillPanels(this);
+
     }
 
     public void OnDeselect()
     {
         GetComponent<Renderer>().material.color = Color.green;
-        TestSettlementSelector.Instance.EnableSettlementSelectorPanels(false);
-        TestSettlementSelector.Instance.NamePanel.SetText();
-        TestSettlementSelector.Instance.EditorPanel.Clear();
-        TestSettlementSelector.Instance.ExplorerPanel.Clear();
         ClearHighlightedCellsWithinRange();
+
+        SettlementInspector.Instance.ClearPanels();
+        SettlementInspector.Instance.EnableSettlementInspectorPanels(false);
+
         cell.ClearSettlement();
-        SettlementInspector.Instance.Clear();
     }
 
     private void HighlightCellsWithinRange()

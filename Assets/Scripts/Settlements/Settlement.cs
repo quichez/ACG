@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
 {
     public int Population = 0;
     public string Name;
-    
     Cell cell;
 
     protected virtual void Start()
@@ -73,7 +73,8 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
 
     public void DestroySettlement()
     {
-        OnDeselect();        
+        OnDeselect();
+        TurnManager.Instance.Settlements.Remove(this);
         Destroy(gameObject);
     }
 }
@@ -89,15 +90,43 @@ public interface ILinkableSettlement
 {
     //bool IsLinkableTo { get; }
     int MaximumLinkableDistance { get; }
-    public LinkedList<ILinkableSettlement> LinkedSettlements { get; }
-
+    LinkedList<ILinkableSettlement> LinkedSettlements { get; }
+    LinkedList<SettlementLink> SettlementLinks { get; }
     List<ILinkableSettlement> FindLinkableSettlements();
     void LinkSettlementTo(ILinkableSettlement other);
+
+    void GetGoldBonusFromLinkedSettlements()
+    {
+        if(this is IInputResources currInputs)
+        {
+            int bonusGold = 0;
+            foreach (ILinkableSettlement item in LinkedSettlements)
+            {
+                if(item is IInputResources inputs)
+                {
+                    if (inputs.FindInputResource(typeof(Money)) is IRenewableResource res)
+                    {
+                        bonusGold += Mathf.CeilToInt((float)res.RenewalAmount / 4);
+                    }
+                }
+            }
+
+            Resource res2 = currInputs.FindInputResource(typeof(Money));
+            if (res2 != null)
+            {
+                res2.ChangeResourceAmount(bonusGold);
+            }
+        }
+    }
 }
 
 public interface IInputResources
 {
-    List<Resource> InputResources { get; }    
+    List<Resource> InputResources { get; }  
+    Resource FindInputResource(Type inputResource)
+    {
+        return InputResources.Find(res => res.GetType() == inputResource);
+    }
 }
 
 public interface IOutputResources
@@ -115,4 +144,18 @@ public interface IHighlightWithinRange
 
     void Highlight();
     void UnHighlight();
+}
+
+/// <summary>
+/// This settlement has happiness.
+/// </summary>
+public interface IHappinessSettlement
+{
+    int LocalHappiness { get; }
+    int LocalUnhappiness { get; }
+
+    int CalculateTotalLocalHappiness()
+    {
+        return LocalHappiness - LocalUnhappiness;
+    }
 }

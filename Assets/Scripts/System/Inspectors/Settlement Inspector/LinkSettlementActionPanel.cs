@@ -33,9 +33,8 @@ public class LinkSettlementActionPanel : MonoBehaviour
         linkable.LinkSettlementTo(linkTo);
         Destroy(button.gameObject);
         SettlementInspector.Instance.EnableSettlementInspectorPanels();
+        var link = new SettlementLink(linkTo, (int)Vector3.Magnitude((linkTo as Settlement).transform.position - (linkable as Settlement).transform.position));
     }
-
-
 
     private void OnDisable()
     {

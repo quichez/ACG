@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Village : Settlement, IPopulationChange, IInputResources, IOutputResources, ILinkableSettlement
+public class Village : Settlement, IPopulationChange, IInputResources, IOutputResources, ILinkableSettlement, IHappinessSettlement
 {
     //public bool IsLinkableTo => throw new System.NotImplementedException();
 
@@ -13,7 +13,12 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public List<Resource> OutputResource { get; private set; } = new();
 
-    public LinkedList<ILinkableSettlement> LinkedSettlements { get; private set; } = new();
+    public LinkedList<ILinkableSettlement> LinkedSettlements { get; } = new();
+    public LinkedList<SettlementLink> SettlementLinks { get; private set; } = new();
+
+    public int LocalHappiness { get; private set; } = 3;
+    public int LocalUnhappiness { get; private set; } = 0;
+
 
     public void ChangePopulationByAmount(int amt)
     {
@@ -38,18 +43,40 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         return linkableSettlements;
     }
 
+    /*private SettlementLink FindLinkableSettlements_2()
+    {
+        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
+        foreach (var cell in linkablesInRange)
+        {
+            if (cell.TryGetComponent(out ILinkableSettlement link))
+            {
+                if (!LinkedSettlements.Contains(link) && cell.gameObject != gameObject)
+                {
+                    linkableSettlements.Add(link);
+                }
+            }
+        }
+
+    }*/
+
     public void LinkSettlementTo(ILinkableSettlement other)
     {
         LinkedSettlements.AddLast(other);
         Debug.Log("hi");
     }
 
+    private void LinkSettlementTo_2(SettlementLink newLink)
+    {
+
+    }
+
     protected override void Start()
     {
         base.Start();
         Name = Random.value.ToString();
-        InputResources.Add(new Money(10));        
-        (InputResources.Find(res => res.GetType() == typeof(Money)) as IRenewableResource).ChangeRenewalAmountByAmount(1);
+        var newMoney = new Money(10);
+        (newMoney as IRenewableResource).ChangeRenewalAmountByAmount(1);
+        InputResources.Add(newMoney);
 
     }
 
@@ -59,7 +86,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         if (cell is ICellResources resources)OutputResource.AddRange(resources.CellResources);
         foreach (IExpenseResource expense in OutputResource)
         {
-            expense.SetCostToAmount(0);
+            expense.SetCostToAmount(0); // This makes them equal ZERO on start -- that means building a Village on the resource makes it free.
         }
     }
 
@@ -93,4 +120,21 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         }
     }
 
+    public int CalculateTotalLocalHappiness()
+    {
+        int localHappy = 0;
+        int localUnhappy = 0;
+
+        //localHappy += 
+        foreach (ILinkableSettlement item in LinkedSettlements)
+        {
+            // I am going to need a struct to get the linked settlement and the distance from the current settlement.
+        }
+        localUnhappy += Population / 4;
+
+        LocalHappiness = localHappy;
+        LocalUnhappiness = localUnhappy;
+
+        return LocalHappiness - LocalUnhappiness;
+    }
 }

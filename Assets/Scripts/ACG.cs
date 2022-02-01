@@ -9,6 +9,7 @@ namespace ACG
 {
     namespace Resources
     {
+
         public abstract class Resource
         {
             public abstract string Name { get; }
@@ -60,6 +61,12 @@ namespace ACG
             
 
         }
+
+        public interface IFoodResource
+        {
+
+        }
+
         public static class ResourceFactory
         {
             private static Dictionary<string, Type> _resourceByName;

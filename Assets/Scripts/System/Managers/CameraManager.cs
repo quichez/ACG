@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : Singleton<CameraManager>
 {
-    public static CameraManager Instance;
     public Transform cameraHolder;
     public Camera mainCamera;
 
-    Transform _target;
     InputMaster _inputs;
 
     [Min(1.0f)] public float zoomSpeed = 5.0f;
@@ -18,9 +16,9 @@ public class CameraManager : MonoBehaviour
     [Range(4.0f,10.0f)] public float maxZoom = 5.0f;
     float zoomAmount = 0.0f;
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         _inputs = new InputMaster();
     }
 
@@ -54,8 +52,7 @@ public class CameraManager : MonoBehaviour
     }
     public IEnumerator MoveCamera(Transform targt)
     {
-        _target = targt;        
-        Vector3 tgt = new Vector3(targt.transform.position.x, cameraHolder.transform.position.y, targt.position.z - 5.0f);
+        Vector3 tgt = new(targt.transform.position.x, cameraHolder.transform.position.y, targt.position.z - 5.0f);
         
         while(targt && !Mathf.Approximately(cameraHolder.transform.position.x, targt.transform.position.x))
         {

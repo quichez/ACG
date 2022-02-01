@@ -38,6 +38,11 @@ public class TurnManager : MonoBehaviour
                 }
             }
 
+            if(settlement is ILinkableSettlement linkable)
+            {
+                linkable.GetGoldBonusFromLinkedSettlements();
+            }
+
             if (settlement is IOutputResources outputs)
             {
                 outputs.CalculateAndSpendOnExpenseResources();

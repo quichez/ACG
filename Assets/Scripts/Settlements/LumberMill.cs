@@ -13,6 +13,8 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
     public List<Resource> OutputResource { get; private set; } = new();
 
+    public LinkedList<SettlementLink> SettlementLinks => throw new System.NotImplementedException();
+
     public void CalculateAndSpendOnExpenseResources()
     {        
         foreach (Resource temp in OutputResource) // Loop through each resource to calculate resource expenses
@@ -30,12 +32,13 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
     public List<ILinkableSettlement> FindLinkableSettlements()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        return null;
     }
 
     public void LinkSettlementTo(ILinkableSettlement other)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void SetAllEffectiveResourceAmounts()

@@ -1,5 +1,6 @@
 ﻿using System;
 using ACG.Resources;
+using UnityEngine;
 
 public class Cows : Resource, IExpenseResource
 {
@@ -23,10 +24,5 @@ public class Cows : Resource, IExpenseResource
     public void ChangeCostByAmount(int amt)
     {
         Cost += amt;
-    }
-
-    public void PayForResource()
-    {
-        throw new System.NotImplementedException();
     }
 }

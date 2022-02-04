@@ -13,7 +13,7 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
     public List<Resource> OutputResource { get; private set; } = new();
 
-    public LinkedList<SettlementLink> SettlementLinks => throw new System.NotImplementedException();
+    public List<SettlementLink> SettlementLinks { get; private set; } = new();
 
     public void CalculateAndSpendOnExpenseResources()
     {        
@@ -32,8 +32,20 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
     public List<ILinkableSettlement> FindLinkableSettlements()
     {
-        //throw new System.NotImplementedException();
-        return null;
+        List<ILinkableSettlement> linkableSettlements = new();
+
+        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
+        foreach (var cell in linkablesInRange)
+        {
+            if (cell.TryGetComponent(out ILinkableSettlement link))
+            {
+                if (!(this as ILinkableSettlement).IsLinkedToSettlement(link) && cell.gameObject != gameObject)
+                {
+                    linkableSettlements.Add(link);
+                }
+            }
+        }
+        return linkableSettlements;
     }
 
     public void LinkSettlementTo(ILinkableSettlement other)
@@ -83,5 +95,14 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
 
     }
-    
+
+    public void LinkSettlementTo_2(SettlementLink link)
+    {
+        SettlementLinks.Add(link);
+    }
+
+    public void UnlinkSettlement()
+    {
+        throw new System.NotImplementedException();
+    }
 }

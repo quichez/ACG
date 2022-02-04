@@ -22,12 +22,11 @@ public class SettlementLinkPanel : MonoBehaviour
     {
         if (linkableSettlement is ILinkableSettlement linkable)
         {
-            if (linkable.LinkedSettlements.Count > 0) Text.text = "Linked Settlements:\n";
+            if (linkable.SettlementLinks.Count > 0) Text.text = "Linked Settlements:\n";
             else gameObject.SetActive(false);
-            foreach (var temp in linkable.LinkedSettlements)
+            foreach (var temp in linkable.SettlementLinks)
             {
-                Settlement settle = temp as Settlement;
-                Text.text += settle.Name;
+                Text.text += temp.GetTargetName() + "\n";
             }
         } 
         else gameObject.SetActive(false);

@@ -71,10 +71,10 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
         }
     }
 
-    public void DestroySettlement()
+    public virtual void DestroySettlement()
     {
         OnDeselect();
-        TurnManager.Instance.Settlements.Remove(this);
+        TurnManager.Instance.Settlements.Remove(this);        
         Destroy(gameObject);
     }
 }
@@ -91,10 +91,18 @@ public interface ILinkableSettlement
     //bool IsLinkableTo { get; }
     int MaximumLinkableDistance { get; }
     LinkedList<ILinkableSettlement> LinkedSettlements { get; }
-    LinkedList<SettlementLink> SettlementLinks { get; }
+    List<SettlementLink> SettlementLinks { get; }
     List<ILinkableSettlement> FindLinkableSettlements();
-    void LinkSettlementTo(ILinkableSettlement other);
-
+    void LinkSettlementTo_2(SettlementLink link);
+    bool IsLinkedToSettlement(ILinkableSettlement link)
+    {
+        foreach (var item in SettlementLinks)
+        {
+            if (item.Target == link) return true;
+        }
+        return false;
+    }
+    void UnlinkSettlement();
     void GetGoldBonusFromLinkedSettlements()
     {
         if(this is IInputResources currInputs)

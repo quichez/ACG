@@ -23,9 +23,12 @@ public class Player : SingletonPersistent<Player>
     public int GetTotalHappiness()
     {
         int total = 0;
-        foreach (IHappinessSettlement happycamper in TurnManager.Instance.Settlements)
+        foreach (var item in TurnManager.Instance.Settlements)
         {
-            total += happycamper.CalculateTotalLocalHappiness();
+            if(item is IHappinessSettlement happyCamper)
+            {
+                total += happyCamper.CalculateTotalLocalHappiness();
+            }
         }
         return total;
     }

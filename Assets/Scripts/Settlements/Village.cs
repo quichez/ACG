@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Village : Settlement, IPopulationChange, IInputResources, IOutputResources, ILinkableSettlement, IHappinessSettlement
 {
-    //public bool IsLinkableTo => throw new System.NotImplementedException();
-
     public int MaximumLinkableDistance { get; private set; } = 3;
 
     public List<Resource> InputResources { get; private set; } = new();
@@ -14,9 +12,11 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
     public List<Resource> OutputResource { get; private set; } = new();
 
     public LinkedList<ILinkableSettlement> LinkedSettlements { get; } = new();
-    public LinkedList<SettlementLink> SettlementLinks { get; private set; } = new();
+
+    public List<SettlementLink> SettlementLinks { get; private set; } = new();
 
     public int LocalHappiness { get; private set; } = 3;
+
     public int LocalUnhappiness { get; private set; } = 0;
 
 
@@ -34,7 +34,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         {
             if (cell.TryGetComponent(out ILinkableSettlement link))
             {
-                if (!LinkedSettlements.Contains(link) && cell.gameObject != gameObject)
+                if (!IsLinkedToSettlement(link) && cell.gameObject != gameObject)
                 {
                     linkableSettlements.Add(link);
                 }
@@ -59,15 +59,17 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     }*/
 
-    public void LinkSettlementTo(ILinkableSettlement other)
+    public void LinkSettlementTo_2(SettlementLink newLink)
     {
-        LinkedSettlements.AddLast(other);
-        Debug.Log("hi");
+        SettlementLinks.Add(newLink);
     }
 
-    private void LinkSettlementTo_2(SettlementLink newLink)
+    public void UnlinkSettlement()
     {
-
+        foreach (var item in SettlementLinks)
+        {
+            item.Target.SettlementLinks.Remove(item.Target.SettlementLinks.Find(x => x.Target == this));
+        }
     }
 
     protected override void Start()
@@ -125,16 +127,31 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         int localHappy = 0;
         int localUnhappy = 0;
 
-        //localHappy += 
-        foreach (ILinkableSettlement item in LinkedSettlements)
+        foreach (var item in SettlementLinks)
         {
             // I am going to need a struct to get the linked settlement and the distance from the current settlement.
+            localHappy += 3 - Mathf.Clamp(item.Distance/2,1,3);
         }
-        localUnhappy += Population / 4;
+        localUnhappy += Population / 3;
 
         LocalHappiness = localHappy;
         LocalUnhappiness = localUnhappy;
 
         return LocalHappiness - LocalUnhappiness;
+    }
+
+    public bool IsLinkedToSettlement(ILinkableSettlement link)
+    {
+        foreach (var item in SettlementLinks)
+        {
+            if (item.Target == link) return true;
+        }
+        return false;
+    }
+
+    public override void DestroySettlement()
+    {
+        UnlinkSettlement();
+        base.DestroySettlement();
     }
 }

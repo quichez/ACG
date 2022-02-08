@@ -19,6 +19,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public int LocalUnhappiness { get; private set; } = 0;
 
+    public bool IsSingleLinkable => false;
 
     public void ChangePopulationByAmount(int amt)
     {
@@ -59,16 +60,27 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     }*/
 
-    public void LinkSettlementTo_2(SettlementLink newLink)
+    public void LinkSettlementTo(SettlementLink newLink)
     {
         SettlementLinks.Add(newLink);
+ 
+        if (newLink.Target is IOutputResources outputs)
+        {
+            foreach (var resource in outputs.OutputResource)
+            {
+                Player.Instance.AddToOutputResources(resource);
+            }
+        }
     }
 
     public void UnlinkSettlement()
     {
-        foreach (var item in SettlementLinks)
+        foreach (var item in TurnManager.Instance.Settlements)
         {
-            item.Target.SettlementLinks.Remove(item.Target.SettlementLinks.Find(x => x.Target == this));
+            if (item is ILinkableSettlement linkable)
+            {
+                linkable.SettlementLinks.Remove(linkable.SettlementLinks.Find(x => (Object)x.Target == this));
+            }
         }
     }
 
@@ -80,12 +92,19 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         (newMoney as IRenewableResource).ChangeRenewalAmountByAmount(1);
         InputResources.Add(newMoney);
 
+        TurnManager.Instance.SubscribeToTurnManager(OnTurnAction);
+
     }
 
     public override void SetCellLocation(Cell cell)
     {
         base.SetCellLocation(cell);
-        if (cell is ICellResources resources)OutputResource.AddRange(resources.CellResources);
+        if (cell is ICellResources resources)
+        {
+            OutputResource.AddRange(resources.CellResources);
+            Player.Instance.AddToOutputResources(resources.CellResources);
+        }
+
         foreach (IExpenseResource expense in OutputResource)
         {
             expense.SetCostToAmount(0); // This makes them equal ZERO on start -- that means building a Village on the resource makes it free.
@@ -130,7 +149,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
         foreach (var item in SettlementLinks)
         {
             // I am going to need a struct to get the linked settlement and the distance from the current settlement.
-            localHappy += 3 - Mathf.Clamp(item.Distance/2,1,3);
+            localHappy += 4 - (4 - Mathf.Clamp(Mathf.CeilToInt(item.Distance / 2), 1, 3));
         }
         localUnhappy += Population / 3;
 
@@ -152,6 +171,12 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
     public override void DestroySettlement()
     {
         UnlinkSettlement();
+        Player.Instance.RemoveFromOutputResources(OutputResource);
         base.DestroySettlement();
+    }
+
+    public void OnTurnAction()
+    {
+        
     }
 }

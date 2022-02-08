@@ -14,6 +14,7 @@ public class SettlementInspector : Inspector
     [SerializeField] SettlementLinkPanel _linkPanel;
     [SerializeField] SettlementActionsPanel _settlementActionsPanel;
     [SerializeField] SettlementActionsExtraPanel _settlementActionsExtraPanel;
+    [SerializeField] IdleInspectorResourcePanel _idleInspectorResourcePanel;
 
 
     private void Awake() => Instance = this;
@@ -38,6 +39,7 @@ public class SettlementInspector : Inspector
             _settlementActionsPanel.gameObject.SetActive(true);
 
             if (CurrentSettlement is ILinkableSettlement) _linkPanel.InitializePanel(CurrentSettlement);
+            _idleInspectorResourcePanel.gameObject.SetActive(false);    
         }
     }
 

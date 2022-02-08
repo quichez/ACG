@@ -16,7 +16,8 @@ public class Money : Resource, IRenewableResource
     {
         ChangeResourceAmount(amt);
     }
-    
+
+    public void SetRenewalAmountTo(int amt) => RenewalAmount = amt;
     public void ChangeRenewalAmountByAmount(int amt)
     {
         RenewalAmount += amt;

@@ -114,6 +114,15 @@ namespace ACG
                 return _resourceByName.Keys;
             }
         }
+
+        public static class ResourceHelper
+        {
+            public static bool GetResource(this List<Resource> resources, Resource target, out Resource result)
+            {
+                result = resources.Find(x => x.GetType() == target.GetType());
+                if (result is null) return false; else return true;
+            }
+        }
     }
 
     namespace Inspectors

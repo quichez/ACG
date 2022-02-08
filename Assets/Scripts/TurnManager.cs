@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class TurnManager : MonoBehaviour
 {
     public static TurnManager Instance;
     private float TurnTimer = 0.0f;
+    private Action _turnActions;
 
     public List<Settlement> Settlements { get; } = new();
     
@@ -26,8 +28,11 @@ public class TurnManager : MonoBehaviour
 
     }
 
+    public void SubscribeToTurnManager(Action action) => _turnActions += action;
     private void TurnCycle()
     {
+        _turnActions?.Invoke();
+
         foreach (Settlement settlement in Settlements)
         {
             if (settlement is IInputResources inputs)

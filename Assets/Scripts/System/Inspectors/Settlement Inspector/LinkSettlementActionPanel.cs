@@ -30,10 +30,21 @@ public class LinkSettlementActionPanel : MonoBehaviour
     /// <param name="linkTo"></param>
     private void LinkSettlements(ILinkableSettlement linkable, ILinkableSettlement linkTo, CellActionButton button = null)
     {
-        Destroy(button.gameObject);
+        if (linkable.IsSingleLinkable)
+        {
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        else
+        {
+            Destroy(button.gameObject);
+        }
+
         SettlementInspector.Instance.EnableSettlementInspectorPanels();
         var link = new SettlementLink(linkTo, (int)Vector3.Magnitude((linkTo as Settlement).transform.position - (linkable as Settlement).transform.position));
-        linkable.LinkSettlementTo_2(link);
+        linkable.LinkSettlementTo(link);
     }
 
     private void OnDisable()

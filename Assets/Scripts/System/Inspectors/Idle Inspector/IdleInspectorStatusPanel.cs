@@ -7,6 +7,8 @@ public class IdleInspectorStatusPanel : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI _moneyText;
     [SerializeField] TextMeshProUGUI _happinessText;
+    [SerializeField] GameObject _selectedCellPanel;
+    [SerializeField] GameObject _resoucePanel;
 
     private void Update()
     {
@@ -29,5 +31,11 @@ public class IdleInspectorStatusPanel : MonoBehaviour
         {
             return "<color=#FFFFFF>" + Player.Instance.GetTotalHappiness().ToString() + "</color>";
         }
+    }
+
+    public void TogglePlayerResourcePanel()
+    {
+        _resoucePanel.SetActive(!_resoucePanel.activeSelf);
+        _selectedCellPanel.SetActive(!_resoucePanel.activeSelf);
     }
 }

@@ -89,11 +89,12 @@ public interface IPopulationChange
 public interface ILinkableSettlement
 {
     //bool IsLinkableTo { get; }
+    bool IsSingleLinkable { get; }
     int MaximumLinkableDistance { get; }
     LinkedList<ILinkableSettlement> LinkedSettlements { get; }
     List<SettlementLink> SettlementLinks { get; }
     List<ILinkableSettlement> FindLinkableSettlements();
-    void LinkSettlementTo_2(SettlementLink link);
+    void LinkSettlementTo(SettlementLink link);
     bool IsLinkedToSettlement(ILinkableSettlement link)
     {
         foreach (var item in SettlementLinks)

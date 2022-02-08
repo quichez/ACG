@@ -15,6 +15,8 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
     public List<SettlementLink> SettlementLinks { get; private set; } = new();
 
+    public bool IsSingleLinkable => true;
+
     public void CalculateAndSpendOnExpenseResources()
     {        
         foreach (Resource temp in OutputResource) // Loop through each resource to calculate resource expenses
@@ -34,6 +36,8 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
     {
         List<ILinkableSettlement> linkableSettlements = new();
 
+        if(SettlementLinks.Count > 0) return linkableSettlements;
+
         Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
         foreach (var cell in linkablesInRange)
         {
@@ -46,11 +50,6 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
             }
         }
         return linkableSettlements;
-    }
-
-    public void LinkSettlementTo(ILinkableSettlement other)
-    {
-        //throw new System.NotImplementedException();
     }
 
     public void SetAllEffectiveResourceAmounts()
@@ -91,18 +90,42 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
     protected override void Start()
     {
         base.Start();
-        InputResources.Add(new Money(10));
-
+        var money = new Money(10);
+        money.SetRenewalAmountTo(0);
+        InputResources.Add(money);
+        TurnManager.Instance.SubscribeToTurnManager(OnTurnAction);
 
     }
 
-    public void LinkSettlementTo_2(SettlementLink link)
+    public void LinkSettlementTo(SettlementLink link)
     {
         SettlementLinks.Add(link);
     }
 
     public void UnlinkSettlement()
     {
-        throw new System.NotImplementedException();
+        foreach (var item in TurnManager.Instance.Settlements)
+        {
+            if(item is ILinkableSettlement linkable)
+            {
+                linkable.SettlementLinks.Remove(linkable.SettlementLinks.Find(x => (Object)x.Target == this));
+            }
+        }
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    private void OnTurnAction()
+    {
+        Debug.Log("hi");
+    }
+
+    public override void DestroySettlement()
+    {
+        UnlinkSettlement();
+        base.DestroySettlement();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using ACG.Resources;
 using System;
 
-public class Lumber : Resource, IExpenseResource
+public class Lumber : Resource, IExpenseResource, IIndustryResource
 {
     public override string Name => "Lumber";
 

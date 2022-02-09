@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkableSettlement
 {
-    public int MaximumLinkableDistance { get; private set; } = 3;
+    public int MaximumLinkableDistance { get; private set; } = 2;
 
     public LinkedList<ILinkableSettlement> LinkedSettlements { get; private set; } = new();
 

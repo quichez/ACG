@@ -25,13 +25,18 @@ public class SettlementActionsPanel : MonoBehaviour
         {
             SettlementInspector.Instance.EnableActionExtraPanel(false);
             CellActionButton linkButton = Instantiate(_actionButton, transform);
-            linkButton.SetCellAction(SettlementInspector.Instance.ToggleActionExtraPanel, "Link Settlement");
+            linkButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Links"), "Link Settlement");
         }
         if(settlement is Village)
         {
+            SettlementInspector.Instance.EnableEditorPanel(false);
             SettlementInspector.Instance.EnableActionExtraPanel(false);
+            
             CellActionButton villageEditorButton = Instantiate(_actionButton, transform);
             villageEditorButton.SetCellAction(() => TestSettlementSelector.Instance.EditorPanel.gameObject.SetActive(!TestSettlementSelector.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
+            
+            CellActionButton buildingControllerButton = Instantiate(_actionButton, transform);
+            buildingControllerButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Buildings"), "Buildings");
         }
     }
 

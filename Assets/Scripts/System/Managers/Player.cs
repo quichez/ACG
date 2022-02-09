@@ -90,4 +90,14 @@ public class Player : SingletonPersistent<Player>
             RemoveFromOutputResources(item);
         }
     }
+    
+    private void RandomIncreaseInUnhappiness()
+    {
+        if(Random.value * 1000 < 1) GlobalUnhappiness += 1;
+    }
+
+    private void Start()
+    {
+        TurnManager.Instance.SubscribeToTurnManager(RandomIncreaseInUnhappiness);
+    }
 }

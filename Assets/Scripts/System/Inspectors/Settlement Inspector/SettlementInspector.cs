@@ -51,7 +51,17 @@ public class SettlementInspector : Inspector
         _linkPanel.gameObject.SetActive(active);
     }
 
-    public void ToggleActionExtraPanel() => _settlementActionsExtraPanel.gameObject.SetActive(!_settlementActionsExtraPanel.gameObject.activeSelf);
+    public void EnableEditorPanel(bool enable) => _editorPanel.gameObject.SetActive(enable);
+    public void ToggleActionExtraPanel(string extraPanel) 
+    {
+        _settlementActionsExtraPanel.gameObject.SetActive(!_settlementActionsExtraPanel.gameObject.activeSelf);
+        if (_settlementActionsExtraPanel.gameObject.activeSelf)
+        {
+            if (extraPanel == "Links") _settlementActionsExtraPanel.EnableLinkSettlementActionPanel(true);
+            if (extraPanel == "Buildings") _settlementActionsExtraPanel.EnableBuildingControllerPanel(true);
+        }
+    }
+
 
     public void EnableActionExtraPanel(bool enable) => _settlementActionsExtraPanel.gameObject.SetActive(enable);
 

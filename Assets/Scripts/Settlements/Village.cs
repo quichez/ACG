@@ -19,6 +19,8 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public int LocalUnhappiness { get; private set; } = 0;
 
+    public int LocalFoodPoints { get; private set; } = 0;    
+
     public bool IsSingleLinkable => false;
 
     public void ChangePopulationByAmount(int amt)
@@ -177,6 +179,17 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
 
     public void OnTurnAction()
     {
-        
+        // One in a million chance, multiplied by local unhappiness. If locally happy, this is no longer an issue.
+        if(Random.value * 1000000 < (1 * DetermineUnhappinessIfUnhappy()^2))
+        {
+            DestroySettlement();
+        }
     }
+
+    private int DetermineUnhappinessIfUnhappy()
+    {
+        if (CalculateTotalLocalHappiness() < 0) return Mathf.Abs(CalculateTotalLocalHappiness());
+        else return 0;
+    }
+
 }

@@ -19,6 +19,8 @@ public class TurnManager : MonoBehaviour
         else Instance = this;
 
         DontDestroyOnLoad(this);
+
+
     }
 
     private void Update()

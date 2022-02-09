@@ -67,6 +67,11 @@ namespace ACG
 
         }
 
+        public interface IIndustryResource
+        {
+
+        }
+
         public static class ResourceFactory
         {
             private static Dictionary<string, Type> _resourceByName;
@@ -122,6 +127,18 @@ namespace ACG
                 result = resources.Find(x => x.GetType() == target.GetType());
                 if (result is null) return false; else return true;
             }
+
+            public static bool GetResource(this List<Resource> resources, Type target, out Resource result)
+            {
+                result = resources.Find(x => x.GetType() == target);
+                if (result is null) return false; else return true;
+            }
+
+            public static int GetResourceAmount(this List<Resource> resources, Type target)
+            {
+                var result = resources.Find(x => x.GetType() == target);
+                if (result is null) return 0; else return result.EffectiveAmount;
+            }
         }
     }
 
@@ -136,6 +153,82 @@ namespace ACG
         public interface IInspectable
         {
 
+        }
+    }
+
+    namespace Buildings
+    {        
+        [Serializable]
+        public abstract class Building
+        {
+
+            public abstract string Name { get; }
+            public abstract string Description { get; }
+            public abstract Type SettlementType { get; }
+            public abstract int purchaseCost { get; }
+            public abstract int industryCost { get; }
+            public bool Unlocked { get; protected set; } = false;
+            public bool InProcessOfUnlock { get; protected set; }
+            public abstract void Unlock(int amt);
+            public void StartProcess()
+            {
+                InProcessOfUnlock = true;
+            }
+
+            internal void StopProcess()
+            {
+                InProcessOfUnlock = true;
+                Unlocked = true;
+            }
+        }
+
+        public static class BuildingFactory
+        {
+            private static Dictionary<string, Type> _buildingByName;
+            private static bool IsInitialized => _buildingByName != null;
+
+            private static void InitializeFactory()
+            {
+                if (IsInitialized) return;
+
+                var buildingType = Assembly.GetAssembly(typeof(Building)).GetTypes()
+                    .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Building)));
+
+                _buildingByName = new Dictionary<string, Type>();
+
+                foreach (var type in buildingType)
+                {
+                    if (Activator.CreateInstance(type) is Building temp) _buildingByName.Add(temp.Name, type);
+                }
+            }
+
+            public static Building GetBuilding(string buildingName)
+            {
+                InitializeFactory();
+                if (!_buildingByName.ContainsKey(buildingName)) throw new ArgumentException("The building " + buildingName + " has not been created!");
+
+                var type = _buildingByName[buildingName];
+                var res = Activator.CreateInstance(type) as Building;
+                return res;
+            }
+
+            public static List<Building> GetBuildingTypes(Type buildingType)
+            {
+                InitializeFactory();
+                List<Building> temp = new List<Building>(_buildingByName.Count);
+                foreach (var item in _buildingByName.Values)
+                {
+                    var building = Activator.CreateInstance(item) as Building;
+                    if(building.SettlementType == buildingType) temp.Add(building);
+                }
+                return temp;
+            }
+
+            public static IEnumerable<string> GetBuildingNames()
+            {
+                InitializeFactory();
+                return _buildingByName.Keys;
+            }
         }
     }
 

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8612461508578901896}
   - component: {fileID: 8612461508578901900}
   - component: {fileID: 7988769174542327597}
+  - component: {fileID: 5204551381245505084}
+  - component: {fileID: 5479037495524201876}
   m_Layer: 6
   m_Name: Village
   m_TagString: Untagged
@@ -123,5 +125,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1d8d35582b2fa04287d3959f0366882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5204551381245505084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612461508578901897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4c2c82be1160b448d25fc533749195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5479037495524201876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612461508578901897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2373ef6042eb7d14b97e21db301b717f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -33,7 +33,7 @@ public class SettlementActionsPanel : MonoBehaviour
             SettlementInspector.Instance.EnableActionExtraPanel(false);
             
             CellActionButton villageEditorButton = Instantiate(_actionButton, transform);
-            villageEditorButton.SetCellAction(() => TestSettlementSelector.Instance.EditorPanel.gameObject.SetActive(!TestSettlementSelector.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
+            villageEditorButton.SetCellAction(() => SelectorManager.Instance.EditorPanel.gameObject.SetActive(!SelectorManager.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
             
             CellActionButton buildingControllerButton = Instantiate(_actionButton, transform);
             buildingControllerButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Buildings"), "Buildings");

@@ -8,9 +8,12 @@ public class SettlementManager : MonoBehaviour
 
     [SerializeField] Village _village;
     [SerializeField] LumberMill _lumberMill;
+    [SerializeField] SettlementUnit _settlementUnit;
 
     public Village Village => _village;
     public LumberMill LumberMill => _lumberMill;
+
+    public SettlementUnit SettlementUnit => _settlementUnit;
 
     private void Awake()
     {

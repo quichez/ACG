@@ -9,7 +9,6 @@ namespace ACG
 {
     namespace Resources
     {
-
         public abstract class Resource
         {
             public abstract string Name { get; }
@@ -139,6 +138,59 @@ namespace ACG
                 var result = resources.Find(x => x.GetType() == target);
                 if (result is null) return 0; else return result.EffectiveAmount;
             }
+
+            public static void AddToResourceList(this List<Resource> resources, Resource newResource)
+            {
+                if(resources.GetResource(newResource, out Resource res))
+                {
+                    res.ChangeResourceAmount(newResource.Amount);
+                }
+                else
+                {
+                    resources.Add(newResource);
+                }
+            }
+
+            public static void AddRangeToResourceList(this List<Resource> resources, List<Resource> newResources)
+            {
+                foreach (var item in newResources)
+                {
+                    resources.AddToResourceList(item);
+                }
+            }
+
+            public static void RemoveFromResourceList(this List<Resource> resources, Resource tgtResource)
+            {
+                if (resources.GetResource(tgtResource, out Resource res))
+                {
+                    if(res.Amount - tgtResource.Amount == 0)
+                    {
+                        resources.Remove(resources.Find(rs => rs.GetType() == res.GetType()));
+                    }
+                    else if(res.Amount - tgtResource.Amount < 0)
+                    {
+                        throw new Exception("You shouldn't have had as many resources as this!");
+                    }
+                    else
+                    {
+                        res.ChangeResourceAmount(-tgtResource.Amount);
+                    }
+                }
+                else
+                {
+                    throw new Exception("This resource didn't exist!");
+                }
+            }
+
+            public static void RemoveRangeFromResourceList(this List<Resource> resources, List<Resource> tgtResources)
+            {
+                foreach (var item in tgtResources)
+                {
+                    resources.RemoveFromResourceList(item);
+                }
+            }
+
+
         }
     }
 
@@ -147,6 +199,12 @@ namespace ACG
         public abstract class Inspector : MonoBehaviour
         {
             public abstract void FillPanels(IInspectable inspectable);
+            public abstract void ClearPanels();
+        }
+
+        public abstract class Inspector2 : MonoBehaviour
+        {
+            public abstract void FillPanels(Unit unit);
             public abstract void ClearPanels();
         }
 

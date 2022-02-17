@@ -30,14 +30,14 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
 
     public void OnDeselect()
     {
-        CellInspector.Instance.ClearPanels();
+        UnitCellInspector.Instance.ClearPanels();
         _selectMask.gameObject.SetActive(true);
     }
 
     public void OnSelect()
     {        
         _selectMask.gameObject.SetActive(false);
-        CellInspector.Instance.FillPanels(this);
+        UnitCellInspector.Instance.FillPanels(this);
     }
 
     protected void Start()
@@ -52,7 +52,14 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
         clone.SetCellLocation(this);
         IsPopulated = true;
 
-        CellInspector.Instance.ClearPanels();
+        UnitCellInspector.Instance.ClearPanels();
+    }
+    public void CreateSettlement(Unit unit)
+    {
+        if (IsPopulated) return;
+        Unit clone = Instantiate(unit, transform.position, Quaternion.identity);
+        clone.GetBaseResourceFromCell(this);
+        IsPopulated = true;
     }
 
     public void ClearSettlement()
@@ -67,6 +74,8 @@ public interface ISettleable
 {
     bool IsSettled { get; }
     void CreateSettlement(Settlement settlement);
+
+    void CreateSettlement(Unit unit);
     void ClearSettlement();
 }
 

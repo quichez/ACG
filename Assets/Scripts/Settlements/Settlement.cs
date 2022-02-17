@@ -42,16 +42,14 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
         ClearHighlightedCellsWithinRange();
 
         SettlementInspector.Instance.ClearPanels();
-        SettlementInspector.Instance.EnableSettlementInspectorPanels(false);
-
-        cell.ClearSettlement();
+        SettlementInspector.Instance.EnableSettlementInspectorPanels(false);        
     }
 
     private void HighlightCellsWithinRange()
     {
         if (this is ILinkableSettlement linkable)
         {
-            Collider[] cellsInRange = Physics.OverlapBox(transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.CellMask);
+            Collider[] cellsInRange = Physics.OverlapBox(transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, SelectorManager.Instance.CellMask);
             foreach (var cell in cellsInRange)
             {
                 if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.Highlight();
@@ -63,7 +61,7 @@ public abstract class Settlement : MonoBehaviour, IGridObject, ISelectable, IIns
     {
         if (this is ILinkableSettlement linkable)
         {
-            Collider[] cellsInRange = Physics.OverlapBox(transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.CellMask);
+            Collider[] cellsInRange = Physics.OverlapBox(transform.position, Vector3.one * linkable.MaximumLinkableDistance, Quaternion.identity, SelectorManager.Instance.CellMask);
             foreach (var cell in cellsInRange)
             {
                 if (cell.TryGetComponent(out IHighlightWithinRange hl)) hl.UnHighlight();

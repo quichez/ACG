@@ -8,9 +8,9 @@ public class SettlementInspector : Inspector
     public static SettlementInspector Instance;
     public Settlement CurrentSettlement { get; private set; }
 
-    [SerializeField] VillageExplorerPanel _explorerPanel;
+    [SerializeField] ResourcePanel _explorerPanel;
     [SerializeField] VillageEditorPanel _editorPanel;
-    [SerializeField] TestSettlementName _namePanel;
+    [SerializeField] UnitNamePanel _namePanel;
     [SerializeField] SettlementLinkPanel _linkPanel;
     [SerializeField] SettlementActionsPanel _settlementActionsPanel;
     [SerializeField] SettlementActionsExtraPanel _settlementActionsExtraPanel;

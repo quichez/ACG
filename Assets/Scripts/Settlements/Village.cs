@@ -32,7 +32,7 @@ public class Village : Settlement, IPopulationChange, IInputResources, IOutputRe
     {
         List<ILinkableSettlement> linkableSettlements = new();
 
-        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
+        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, SelectorManager.Instance.SettlementMask);
         foreach (var cell in linkablesInRange)
         {
             if (cell.TryGetComponent(out ILinkableSettlement link))

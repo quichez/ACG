@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using ACG.Resources;
 
-public class VillageExplorerPanel : MonoBehaviour
+public class ResourcePanel : MonoBehaviour
 {
     Settlement settlement;
     public TextMeshProUGUI Text;
@@ -17,7 +17,7 @@ public class VillageExplorerPanel : MonoBehaviour
 
     public void SetPanelInfo(Settlement stm)
     {
-        settlement = stm;
+        settlement = stm;        
 
         if (settlement) Text.text = "Population: " + settlement.Population + "\n";
         if (settlement is IInputResources || settlement is IOutputResources) Text.text += "Resources:\n";
@@ -42,6 +42,11 @@ public class VillageExplorerPanel : MonoBehaviour
     public void Clear()
     {
         settlement = null;
+        Text.text = "";
+    }
+
+    private void OnDisable()
+    {
         Text.text = "";
     }
 }

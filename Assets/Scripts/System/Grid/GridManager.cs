@@ -70,7 +70,7 @@ public class GridManager : MonoBehaviour
         MountainCell[] mcs = transform.GetComponentsInChildren<MountainCell>();
         foreach (MountainCell mCell in mcs)
         {
-            Collider[] cellsAroundMountain = Physics.OverlapBox(mCell.transform.position, Vector3.one, Quaternion.identity, TestSettlementSelector.Instance.CellMask);
+            Collider[] cellsAroundMountain = Physics.OverlapBox(mCell.transform.position, Vector3.one, Quaternion.identity, SelectorManager.Instance.CellMask);
             foreach (Collider item in cellsAroundMountain)
             {
                 if (item.TryGetComponent(out MountainCell _)) continue;

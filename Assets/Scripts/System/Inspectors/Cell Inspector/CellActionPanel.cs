@@ -13,7 +13,7 @@ public class CellActionPanel : MonoBehaviour
             if (settle is FieldCell)
             {
                 CellActionButton clone = Instantiate(_actionButton, transform);
-                clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.Village), "Create Village");
+                clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.SettlementUnit), "Create Settlement");
             }
 
             if (settle is ForestCell)

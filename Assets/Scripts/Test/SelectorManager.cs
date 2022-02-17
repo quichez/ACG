@@ -9,18 +9,18 @@ using UnityEngine.EventSystems;
 /// This should be called something like SelectorManager or something.
 /// This class manages the UIs that appear when an object in game is clicked.
 /// </summary>
-public class TestSettlementSelector : MonoBehaviour
+public class SelectorManager : MonoBehaviour
 {
-    public static TestSettlementSelector Instance { get; private set; }
+    public static SelectorManager Instance { get; private set; }
     
-    [SerializeField] VillageExplorerPanel _explorerPanel;
+    [SerializeField] ResourcePanel _explorerPanel;
     [SerializeField] VillageEditorPanel _editorPanel;
-    [SerializeField] TestSettlementName _namePanel;
+    [SerializeField] UnitNamePanel _namePanel;
     [SerializeField] SettlementLinkPanel _linkPanel;
 
-    public VillageExplorerPanel ExplorerPanel => _explorerPanel;
+    public ResourcePanel ExplorerPanel => _explorerPanel;
     public VillageEditorPanel EditorPanel => _editorPanel;
-    public TestSettlementName NamePanel => _namePanel;
+    public UnitNamePanel NamePanel => _namePanel;
     public SettlementLinkPanel LinkPanel => _linkPanel;
 
 

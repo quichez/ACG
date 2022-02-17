@@ -38,7 +38,7 @@ public class LumberMill : Settlement, IInputResources, IOutputResources, ILinkab
 
         if(SettlementLinks.Count > 0) return linkableSettlements;
 
-        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, TestSettlementSelector.Instance.SettlementMask);
+        Collider[] linkablesInRange = Physics.OverlapBox(transform.position, Vector3.one * MaximumLinkableDistance, Quaternion.identity, SelectorManager.Instance.SettlementMask);
         foreach (var cell in linkablesInRange)
         {
             if (cell.TryGetComponent(out ILinkableSettlement link))

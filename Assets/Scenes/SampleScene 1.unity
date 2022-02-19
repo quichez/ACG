@@ -303,7 +303,7 @@ MonoBehaviour:
   _explorerPanel: {fileID: 0}
   _editorPanel: {fileID: 1883221654}
   _namePanel: {fileID: 116222066}
-  _linkPanel: {fileID: 243518367}
+  _linkPanel: {fileID: 0}
   CellMask:
     serializedVersion: 2
     m_Bits: 128
@@ -707,10 +707,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 243518362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc778150060722458c9b10c483b8f71, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b7f330a1dffb794ba864d265c7aa5c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: {fileID: 691280469}
+  _text: {fileID: 691280469}
 --- !u!1 &244663725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,7 +1713,7 @@ GameObject:
   - component: {fileID: 718057268}
   - component: {fileID: 718057272}
   m_Layer: 5
-  m_Name: Settlement Actions
+  m_Name: Unit Actions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 718057266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d848adcc3532fd44baa861065154c55b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2369be10742f16e44a7901d249e34451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _actionButton: {fileID: 6255976917516060708, guid: b003a37c7524f3b4499fb5419006099c, type: 3}
@@ -2768,10 +2768,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _namePanel: {fileID: 116222066}
   _resourcePanel: {fileID: 2141919265}
-  _editorPanel: {fileID: 0}
-  _linkPanel: {fileID: 0}
-  _settlementActionsPanel: {fileID: 0}
-  _settlementActionsExtraPanel: {fileID: 0}
+  _linkPanel: {fileID: 243518367}
+  _unitActionsPanel: {fileID: 718057272}
+  _unitActionsExtraPanel: {fileID: 1946064082}
   _idleInspectorResourcePanel: {fileID: 0}
 --- !u!1 &1238885881
 GameObject:
@@ -2787,7 +2786,7 @@ GameObject:
   - component: {fileID: 1238885883}
   - component: {fileID: 1238885886}
   m_Layer: 5
-  m_Name: Link Settlement Actions
+  m_Name: Unit Link Actions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2884,7 +2883,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1238885881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4257f0193fc8642ac0974305e4ac4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 75de216fa8e35674a925fd76d7841ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _actionButton: {fileID: 6255976917516060708, guid: b003a37c7524f3b4499fb5419006099c, type: 3}
@@ -4037,7 +4036,7 @@ GameObject:
   - component: {fileID: 1946064080}
   - component: {fileID: 1946064082}
   m_Layer: 5
-  m_Name: Settlement Actions Extra Panel
+  m_Name: Unit Actions Extra Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4112,10 +4111,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1946064076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d876ef0678076ec41a0b2b3c3fe38d1b, type: 3}
+  m_Script: {fileID: 11500000, guid: f782e4f7b1d17c744a575e98634cf5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkSettlementActionPanel: {fileID: 1238885886}
+  _unitLinkExtraPanel: {fileID: 1238885886}
   _buildingControllerPanel: {fileID: 1060867394}
 --- !u!1 &1962948069
 GameObject:

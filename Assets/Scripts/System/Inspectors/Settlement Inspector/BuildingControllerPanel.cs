@@ -9,7 +9,7 @@ public class BuildingControllerPanel : MonoBehaviour
     [SerializeField] CellActionButton _actionButtonPrefab;
     private void OnEnable()
     {
-        if(SettlementInspector.Instance.CurrentSettlement.TryGetComponent(out BuildingController buildingController))
+        if(UnitInspector.Instance.CurrentUnit.TryGetComponent(out BuildingController buildingController))
         {
             foreach (var item in buildingController.GetBuildingsNotUnlocked())
             {
@@ -29,7 +29,7 @@ public class BuildingControllerPanel : MonoBehaviour
 
     private void Update()
     {
-        if(SettlementInspector.Instance.CurrentSettlement.TryGetComponent(out BuildingController buildingController))
+        if(UnitInspector.Instance.CurrentUnit.TryGetComponent(out BuildingController buildingController))
         {
             if (buildingController.buildingInProcess != null) _text.text = buildingController.buildingInProcess.Name;
             else _text.text = "No Building In Process";

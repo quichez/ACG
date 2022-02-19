@@ -18,11 +18,7 @@ public class SelectorManager : MonoBehaviour
     [SerializeField] UnitNamePanel _namePanel;
     [SerializeField] SettlementLinkPanel _linkPanel;
 
-    public ResourcePanel ExplorerPanel => _explorerPanel;
     public VillageEditorPanel EditorPanel => _editorPanel;
-    public UnitNamePanel NamePanel => _namePanel;
-    public SettlementLinkPanel LinkPanel => _linkPanel;
-
 
     public LayerMask CellMask;
     public LayerMask SettlementMask;
@@ -100,7 +96,9 @@ public class SelectorManager : MonoBehaviour
                 prev = null;
             }
         }
-    }    
+    }
+
+    public void SetCurrentSelection(GameObject gameObject) => prev = gameObject;
 }
 public interface ISelectable
 {

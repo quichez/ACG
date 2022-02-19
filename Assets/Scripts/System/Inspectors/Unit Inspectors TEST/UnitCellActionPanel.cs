@@ -10,7 +10,6 @@ public class UnitCellActionPanel : MonoBehaviour
     {
         if (cell is ISettleable settle)
         {
-
             CellActionButton clone1 = Instantiate(_actionButton, transform);
             clone1.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.SettlementUnit), "Create Village");            
         }

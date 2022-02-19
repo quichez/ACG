@@ -60,9 +60,11 @@ public abstract class Cell : MonoBehaviour, IGridObject, IHighlightWithinRange, 
         Unit clone = Instantiate(unit, transform.position, Quaternion.identity);
         clone.GetBaseResourceFromCell(this);
         IsPopulated = true;
+        OnDeselect();
+        clone.OnSelect();
     }
 
-    public void ClearSettlement()
+    public void ClearUnit()
     {
         IsPopulated = false;
     }
@@ -76,7 +78,7 @@ public interface ISettleable
     void CreateSettlement(Settlement settlement);
 
     void CreateSettlement(Unit unit);
-    void ClearSettlement();
+    void ClearUnit();
 }
 
 public interface ICellResources

@@ -62,12 +62,14 @@ public abstract class Unit : MonoBehaviour, ISelectable
     public virtual void DestroyUnit()
     {
         OnDeselect();
+        cell.ClearUnit();
         Destroy(gameObject);
     }
 
     private void Start()
     {
         unitName = Random.value.ToString();
+        SelectorManager.Instance.SetCurrentSelection(gameObject);
     }
 }
 

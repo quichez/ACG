@@ -13,7 +13,7 @@ public class SettlementInspector : Inspector
     [SerializeField] UnitNamePanel _namePanel;
     [SerializeField] SettlementLinkPanel _linkPanel;
     [SerializeField] SettlementActionsPanel _settlementActionsPanel;
-    [SerializeField] SettlementActionsExtraPanel _settlementActionsExtraPanel;
+    [SerializeField] UnitActionsExtraPanel _settlementActionsExtraPanel;
     [SerializeField] IdleInspectorResourcePanel _idleInspectorResourcePanel;
 
 
@@ -57,7 +57,7 @@ public class SettlementInspector : Inspector
         _settlementActionsExtraPanel.gameObject.SetActive(!_settlementActionsExtraPanel.gameObject.activeSelf);
         if (_settlementActionsExtraPanel.gameObject.activeSelf)
         {
-            if (extraPanel == "Links") _settlementActionsExtraPanel.EnableLinkSettlementActionPanel(true);
+            if (extraPanel == "Links") _settlementActionsExtraPanel.EnableUnitLinkActionPanel(true);
             if (extraPanel == "Buildings") _settlementActionsExtraPanel.EnableBuildingControllerPanel(true);
         }
     }

@@ -11,4 +11,9 @@ public class CellTitlePanel : MonoBehaviour
     {
         _text.text = title;
     }
+
+    private void OnDisable()
+    {
+        SetCellTitleText("");
+    }
 }

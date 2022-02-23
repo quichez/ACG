@@ -14,7 +14,7 @@ public class BuildingControllerPanel : MonoBehaviour
             foreach (var item in buildingController.GetBuildingsNotUnlocked())
             {
                 CellActionButton clone = Instantiate(_actionButtonPrefab, _buildingButtonsParent);
-                clone.SetCellAction(() => buildingController.StartBuilding(item), item.Name);
+                //clone.SetCellAction(() => buildingController.StartBuilding(item), item.Name);
             }
         }
     }

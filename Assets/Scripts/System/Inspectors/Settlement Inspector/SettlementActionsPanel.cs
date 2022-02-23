@@ -19,13 +19,13 @@ public class SettlementActionsPanel : MonoBehaviour
     public void FillPanelWithButtons(Settlement settlement)
     {
         CellActionButton clone = Instantiate(_actionButton, transform);
-        clone.SetCellAction(settlement.DestroySettlement, "Destroy");
+        //clone.SetCellAction(settlement.DestroySettlement, "Destroy");
 
         if (settlement is ILinkableSettlement)
         {
             SettlementInspector.Instance.EnableActionExtraPanel(false);
             CellActionButton linkButton = Instantiate(_actionButton, transform);
-            linkButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Links"), "Link Settlement");
+            //linkButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Links"), "Link Settlement");
         }
         if(settlement is Village)
         {
@@ -33,10 +33,10 @@ public class SettlementActionsPanel : MonoBehaviour
             SettlementInspector.Instance.EnableActionExtraPanel(false);
             
             CellActionButton villageEditorButton = Instantiate(_actionButton, transform);
-            villageEditorButton.SetCellAction(() => SelectorManager.Instance.EditorPanel.gameObject.SetActive(!SelectorManager.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
+           // villageEditorButton.SetCellAction(() => SelectorManager.Instance.EditorPanel.gameObject.SetActive(!SelectorManager.Instance.EditorPanel.gameObject.activeSelf),"Toggle Test Editor");
             
             CellActionButton buildingControllerButton = Instantiate(_actionButton, transform);
-            buildingControllerButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Buildings"), "Buildings");
+           // buildingControllerButton.SetCellAction(() => SettlementInspector.Instance.ToggleActionExtraPanel("Buildings"), "Buildings");
         }
     }
 

@@ -62,9 +62,6 @@ public class UnitInspector : Inspector2
         extraPanel.gameObject.SetActive(enb);
     }
 
-    public void ToggleActionExtraPanel()
-    {
-
-    }
+    
 }
 

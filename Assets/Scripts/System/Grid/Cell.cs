@@ -81,6 +81,12 @@ public interface ISettleable
     void ClearUnit();
 }
 
+public interface IImprovable
+{
+    bool IsImproved { get; }
+
+    void CreateImprovement(ImprovementUnit improvementUnit);    
+}
 public interface ICellResources
 {
     List<Resource> CellResources { get; }

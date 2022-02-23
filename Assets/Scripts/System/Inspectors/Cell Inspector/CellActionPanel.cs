@@ -13,13 +13,13 @@ public class CellActionPanel : MonoBehaviour
             if (settle is FieldCell)
             {
                 CellActionButton clone = Instantiate(_actionButton, transform);
-                clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.SettlementUnit), "Create Settlement");
+                //clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.SettlementUnit), "Create Settlement");
             }
 
             if (settle is ForestCell)
             {
                 CellActionButton clone = Instantiate(_actionButton, transform);
-                clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.LumberMill), "Create Lumber Mill");
+                //clone.SetCellAction(() => settle.CreateSettlement(SettlementManager.Instance.LumberMill), "Create Lumber Mill");
             }
         }
     }

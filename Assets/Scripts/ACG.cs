@@ -208,6 +208,11 @@ namespace ACG
             public abstract void ClearPanels();
         }
 
+        public abstract class InspectorPanel : MonoBehaviour
+        {
+            public bool active => gameObject.activeSelf;
+        }
+
         public interface IInspectable
         {
 

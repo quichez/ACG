@@ -2,20 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class CellActionButton : MonoBehaviour
 {
     Action _cellAction;
 
-    public void SetCellAction(Action act, string text = "")
+    public Button button => GetComponent<Button>();
+
+    public void SetCellText(string text = "")
     {
-        _cellAction = act;
         GetComponentInChildren<TextMeshProUGUI>().text = text;
+    }
+
+    public void SetCellAction(Action act)
+    {
+        _cellAction = act;      
+        button.interactable = true;
     } 
 
     public void DoCellAction()
     {
         _cellAction();
+    }
+
+    private void OnEnable()
+    {
+        button.interactable = false;
     }
 }

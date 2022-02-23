@@ -17,7 +17,7 @@ public class UnitLinkExtraPanel : MonoBehaviour
                 if (linkable.LinkedSettlements.Contains(link)) { Debug.Log("got it"); continue; }
 
                 CellActionButton clone = Instantiate(_actionButton, transform);
-                clone.SetCellAction(() => LinkSettlements(linkable, link, clone), (link as Settlement).Name);
+                //clone.SetCellAction(() => LinkSettlements(linkable, link, clone), (link as Settlement).Name);
             }
         }
     }

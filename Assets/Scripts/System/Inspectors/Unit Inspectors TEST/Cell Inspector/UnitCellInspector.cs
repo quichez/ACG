@@ -6,11 +6,13 @@ using ACG.Inspectors;
 public class UnitCellInspector : Inspector
 {
     public static UnitCellInspector Instance;
+    public Cell CurrentCell { get; private set; }
+
     [SerializeField] CellTitlePanel _cellTitlePanel;
-    [SerializeField] CellActionPanel _cellActionPanel;
     [SerializeField] CellTypePanel _cellTypePanel;
     [SerializeField] CellResourcePanel _cellResourcePanel;
-
+    [SerializeField] UnitCellActionsPanel _unitCellActionPanel;
+    public UnitCellActionsExtraPanel unitCellActionsExtraPanel => GetComponentInChildren<UnitCellActionsExtraPanel>(true);
 
     private void Awake()
     {
@@ -26,27 +28,29 @@ public class UnitCellInspector : Inspector
             _cellTitlePanel.gameObject.SetActive(true);
             _cellTypePanel.gameObject.SetActive(true);
             _cellResourcePanel.gameObject.SetActive(true);
-            _cellActionPanel.gameObject.SetActive(true);
+            _unitCellActionPanel.gameObject.SetActive(true);
 
             _cellTitlePanel.SetCellTitleText(cell.name);
             _cellTypePanel?.SetCellTypeText(cell.GetCellType());
-            _cellActionPanel.FillPanelWithButtons(cell);
+            _unitCellActionPanel.FillPanelWithButtons(cell);
             _cellResourcePanel.SetCellResourceText(cell as ICellResources);
         }
     }
 
     public override void ClearPanels()
     {
-        _cellTitlePanel.SetCellTitleText("");
+        // Move towards putting this stuff in OnEnable and OnDisable
+        _cellTitlePanel.gameObject.SetActive(false);
         _cellTypePanel?.SetCellTypeText("");
         _cellResourcePanel.ClearCellResourceText();
-        _cellActionPanel.ClearPanelButtons();
+        _unitCellActionPanel.ClearPanelButtons();
 
-        _cellTitlePanel.gameObject.SetActive(false);
         _cellTypePanel.gameObject.SetActive(false);
         _cellResourcePanel.gameObject.SetActive(false);
-        _cellActionPanel.gameObject.SetActive(false);
+        _unitCellActionPanel.gameObject.SetActive(false);
+        unitCellActionsExtraPanel.gameObject.SetActive(false);
 
     }
 
+    public void EnableUnitCellActionExtraPanel(bool enb) => unitCellActionsExtraPanel.gameObject.SetActive(enb);
 }

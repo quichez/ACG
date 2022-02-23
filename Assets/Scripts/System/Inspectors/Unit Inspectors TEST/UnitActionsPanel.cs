@@ -33,13 +33,20 @@ public class UnitActionsPanel : MonoBehaviour
         {
             case SettlementUnit:
                 CellActionButton clone = Instantiate(_actionButton, transform);
-                clone.SetCellAction(UnitInspector.Instance.CurrentUnit.DestroyUnit, "Destroy Unit");
+                clone.SetCellText("Destroy Settlement");
+                clone.SetCellAction(UnitInspector.Instance.CurrentUnit.DestroyUnit);
 
                 CellActionButton links = Instantiate(_actionButton, transform);
                 SetUnitLinkActionButton(links);
 
                 CellActionButton buildings = Instantiate(_actionButton, transform);
                 SetUnitBuildingsActionButton(buildings);
+                break;
+
+            case ImprovementUnit:
+                CellActionButton destroyImprovement = Instantiate(_actionButton, transform);
+                destroyImprovement.SetCellText("Destroy Improvement");
+                destroyImprovement.SetCellAction(UnitInspector.Instance.CurrentUnit.DestroyUnit);
                 break;
 
             default:
@@ -50,13 +57,15 @@ public class UnitActionsPanel : MonoBehaviour
     private void SetUnitLinkActionButton(CellActionButton button)
     {
         UnitInspector.Instance.EnableActionExtraPanel(false);
-        button.SetCellAction(ToggleUnitLinksExtraPanel, "Links");
+        button.SetCellText("Link Units");
+        button.SetCellAction(ToggleUnitLinksExtraPanel);
     }    
 
     private void SetUnitBuildingsActionButton(CellActionButton button)
     {
         UnitInspector.Instance.EnableActionExtraPanel(false);
-        button.SetCellAction(ToggleUnitBuildingExtraPanel, "Buildings");
+        button.SetCellText("Buildings");
+        button.SetCellAction(ToggleUnitBuildingExtraPanel);
     }
 
     private void ToggleUnitLinksExtraPanel()

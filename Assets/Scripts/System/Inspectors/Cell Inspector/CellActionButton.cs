@@ -32,3 +32,15 @@ public class CellActionButton : MonoBehaviour
         button.interactable = false;
     }
 }
+
+public static class CellActionButtonExtensions
+{
+    public static void SetCellActionButton(this CellActionButton cellActionButton, string text, Action action, bool cellConditionsAreMet)
+    {
+        cellActionButton.SetCellText(text);        
+        if (cellConditionsAreMet)
+        {
+            cellActionButton.SetCellAction(action);
+        }
+    }
+}

@@ -39,16 +39,12 @@ public class UnitCellInspector : Inspector
 
     public override void ClearPanels()
     {
-        // Move towards putting this stuff in OnEnable and OnDisable
-        _cellTitlePanel.gameObject.SetActive(false);
-        _cellTypePanel?.SetCellTypeText("");
-        _cellResourcePanel.ClearCellResourceText();
-        _unitCellActionPanel.ClearPanelButtons();
-
-        _cellTypePanel.gameObject.SetActive(false);
-        _cellResourcePanel.gameObject.SetActive(false);
-        _unitCellActionPanel.gameObject.SetActive(false);
-        unitCellActionsExtraPanel.gameObject.SetActive(false);
+        // All InspectorPanels are cleared in OnDisable
+        _cellTitlePanel.SetActive(false);
+        _cellTypePanel.SetActive(false);
+        _cellResourcePanel.SetActive(false);
+        _unitCellActionPanel.SetActive(false);
+        unitCellActionsExtraPanel.SetActive(false);
 
     }
 

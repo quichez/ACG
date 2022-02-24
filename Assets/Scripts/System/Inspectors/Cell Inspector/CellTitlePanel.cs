@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using ACG.Inspectors;
 
-public class CellTitlePanel : MonoBehaviour
+public class CellTitlePanel : InspectorPanel
 {
     [SerializeField] TextMeshProUGUI _text;
 

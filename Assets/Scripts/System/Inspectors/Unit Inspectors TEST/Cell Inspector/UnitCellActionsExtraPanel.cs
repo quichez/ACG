@@ -5,11 +5,11 @@ using ACG.Inspectors;
 public class UnitCellActionsExtraPanel : InspectorPanel
 {
     public UnitCellImprovementsExtraPanel unitCellImprovementsExtraPanel => GetComponentInChildren<UnitCellImprovementsExtraPanel>(true);
-
-    public void EnableImprovementsExtraPanel(bool enb) => unitCellImprovementsExtraPanel.gameObject.SetActive(enb);
+    public UnitCellBuildingsExtraPanel unitCellBuildingsExtraPanel => GetComponentInChildren<UnitCellBuildingsExtraPanel>(true);
 
     private void OnDisable()
     {
-        EnableImprovementsExtraPanel(false);
+        unitCellImprovementsExtraPanel.SetActive(false);
+        unitCellBuildingsExtraPanel.SetActive(false);
     }
 }

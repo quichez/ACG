@@ -213,6 +213,10 @@ namespace ACG
             public bool active => gameObject.activeSelf;
         }
 
+        public static class InspectorPanelExtensions
+        {
+            public static void SetActive(this InspectorPanel inspectorPanel, bool enb) => inspectorPanel.gameObject.SetActive(enb);
+        }
         public interface IInspectable
         {
 

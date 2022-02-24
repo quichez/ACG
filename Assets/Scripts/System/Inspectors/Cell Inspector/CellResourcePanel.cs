@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ACG.Resources;
+using ACG.Inspectors;
 using TMPro;
 
-public class CellResourcePanel : MonoBehaviour
+public class CellResourcePanel : InspectorPanel
 {
     TextMeshProUGUI _text => GetComponentInChildren<TextMeshProUGUI>();
     
@@ -23,4 +24,9 @@ public class CellResourcePanel : MonoBehaviour
     }
 
     public void ClearCellResourceText() => _text.text = "";
+
+    private void OnDisable()
+    {
+        ClearCellResourceText();
+    }
 }

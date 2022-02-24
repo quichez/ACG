@@ -87,6 +87,16 @@ public interface IImprovable
 
     void CreateImprovement(ImprovementUnit improvementUnit);    
 }
+
+public interface IBuildable
+{
+    bool ContainsBuilding { get; }
+
+    void CreateBuilding(Unit buildingUnit)
+    {
+        Debug.Log("Please make this a BuildingUnit");
+    }
+}
 public interface ICellResources
 {
     List<Resource> CellResources { get; }
